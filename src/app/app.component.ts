@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import './training';
 import { IService } from '../interfaces/IService';
 import { FormsModule } from '@angular/forms';
@@ -20,6 +20,7 @@ export class AppComponent {
   taskFour: boolean = true;
   inputValue: string = '';
   isLoading: boolean = true;
+  clockIntervalId: any;
 
   services: IService[] = [
     {
@@ -48,7 +49,6 @@ export class AppComponent {
     this.startClock();
   }
 
-
   //3. Далее создать метод, которая сохраняет в локальное хранилище дату последнего захода на страницу. Вызывать ее в конструкторе.
   private saveLastVisit(): void {
     const date = new Date().toString();
@@ -73,29 +73,39 @@ export class AppComponent {
   private startClock(): void {
     this.currentDateTime = new Date().toLocaleString('ru-RU');
 
-    setInterval(() => {
+    this.clockIntervalId = setInterval(() => {
       this.currentDateTime = new Date().toLocaleString('ru-RU');
     }, 1000)
   }
 
-  increment() {
+  public increment() {
     this.clickCount += 1;
   }
 
-  decrement() {
+  public decrement() {
     if (this.clickCount > 0) {
       this.clickCount -= 1;
     }
   }
 
-  toggleTask() {
+  public toggleTask() {
     this.taskFour = !this.taskFour;
   }
 
-  ngOnInit() {
+  private ngOnInit() {
+    this.startClock();
+
     setTimeout(() => {
       this.isLoading = false;
     }, 2000)
   }
 
+  private ngOnDestroy() {
+    if (this.clockIntervalId) {
+      clearInterval(this.clockIntervalId);
+    }
+  }
+
 }
+
+
