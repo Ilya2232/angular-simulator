@@ -10,6 +10,8 @@ import { NgClass } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
+
+//2. Создать папку enums в папке src, в ней файл Color.ts, который экспортирует enum различных цветов (обязательно красный, зеленый, синий (RGB)). Создать метод внутри app.component, который проверяет, является ли переданный цвет основным, а основных у нас 3 цвета (красный, синий, зеленый) и возвращает нам true/false 
 export class AppComponent {
   currentDateTime: string = '';
   selectedServiceId: number = 2;
@@ -106,6 +108,16 @@ export class AppComponent {
     }
   }
 
+  //4. Далее создать метод, которая сохраняет в localStorage количество заходов на страницу.  Вызывать ее в конструкторе.
+  saveNumberOfVisits(): void {
+    let currentVisits = 0;
+    if (localStorage.getItem('visit') === null) {
+      currentVisits = 1;
+    } else {
+      currentVisits = Number(localStorage.getItem('visit')) + 1;
+    }
+    localStorage.setItem('visit', currentVisits.toString());
+  }
 }
 
 
