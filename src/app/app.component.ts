@@ -107,17 +107,6 @@ export class AppComponent {
       clearInterval(this.clockIntervalId);
     }
   }
-
-  //4. Далее создать метод, которая сохраняет в localStorage количество заходов на страницу.  Вызывать ее в конструкторе.
-  saveNumberOfVisits(): void {
-    let currentVisits = 0;
-    if (localStorage.getItem('visit') === null) {
-      currentVisits = 1;
-    } else {
-      currentVisits = Number(localStorage.getItem('visit')) + 1;
-    }
-    localStorage.setItem('visit', currentVisits.toString());
-  }
 }
 
 
