@@ -111,7 +111,7 @@
       МакКлинток, профессор латыни из колледжа Hampden-Sydney, штат Вирджиния, взял одно из самых странных слов в Lorem
       Ipsum, "consectetur"и занялся его поисками в классической латинской литературе.
     </p>
-    <button class="tour-pr-button">Программа тура</button>
+    <button class="tour-pr-button" (click)="onProgramTourClick()">Программа тура</button>
   </div>
 </section>
 
@@ -138,7 +138,7 @@
         </div>
         }
       </div>
-      <button class="program-price-button">Стоимость программ</button>
+      <button class="program-price-button" (click)="onProgramPriceClick()">Стоимость программ</button>
     </div>
     <div class="offer-pictures">
       <img class="mountain-view-4" src="/images/mountain-view-4.png" alt="">
@@ -148,4 +148,98 @@
     </div>
   </div>
 </section>
+
+<section class="popular-destinations">
+  <div class="destinations-title">
+    <span class="destination-subtitle">по версии отдыхающих</span>
+    <h5 class="destination-title-name">Популярные направления</h5>
+  </div>
+  <div class="destinations-images">
+    <img class="rating-images" src="/images/lake.png" alt="">
+    <img class="rating-images" src="/images/night.png" alt="">
+    <img class="rating-images" src="/images/stretching.png" alt="">
+  </div>
+  <button class="rating-button" (click)="onRatingButtonClick()">Рейтинг направлений</button>
+</section>
+
+<section class="travel-blog">
+  <div class="travel-blog-title">
+    <span class="travel-blog-subtitle">делимся впечатлениями</span>
+    <h6 class="travel-blog-title-name">Блог о путешествиях</h6>
+  </div>
+  <div class="travel-blog-container">
+    <div class="travel-blog-card">
+      <img class="travel-blog-image" src="/images/italy.png" alt="">
+      <div class="travel-blog-content">
+        <h6 class="travel-blog-title-card">Красивая Италия, какая она в реальности?</h6>
+        <p class="travel-blog-subtitle-card">Для современного мира базовый вектор развития предполагает независимые
+          способы реализации соответствующих
+          условий активизации.</p>
+        <div class="article-footer">
+          <span class="article-date">01/04/2023</span>
+          <a class="article-link" href="">читать статью</a>
+        </div>
+      </div>
+    </div>
+    <div class="travel-blog-card">
+      <img class="travel-blog-image" src="/images/plane.png" alt="">
+      <div class="travel-blog-content">
+        <h6 class="travel-blog-title-card">Красивая Италия, какая она в реальности?</h6>
+        <p class="travel-blog-subtitle-card">Для современного мира базовый вектор развития предполагает независимые
+          способы реализации соответствующих
+          условий активизации.</p>
+        <div class="article-footer">
+          <span class="article-date">01/04/2023</span>
+          <a class="article-link" href="">читать статью</a>
+        </div>
+      </div>
+    </div>
+    <div class="travel-blog-card">
+      <img class="travel-blog-image" src="/images/journey-alone.png" alt="">
+      <div class="travel-blog-content">
+        <h6 class="travel-blog-title-card">Красивая Италия, какая она в реальности?</h6>
+        <p class="travel-blog-subtitle-card">Для современного мира базовый вектор развития предполагает независимые
+          способы реализации соответствующих
+          условий активизации.</p>
+        <div class="article-footer">
+          <span class="article-date">01/04/2023</span>
+          <a class="article-link" href="">читать статью</a>
+        </div>
+      </div>
+    </div>
+    <div class="travel-blog-card">
+      <img class="travel-blog-image" src="/images/building.png" alt="">
+      <div class="travel-blog-content">
+        <h6 class="travel-blog-title-card">Красивая Италия, какая она в реальности?</h6>
+        <p class="travel-blog-subtitle-card">Для современного мира базовый вектор развития предполагает независимые
+          способы реализации соответствующих
+          условий активизации.</p>
+        <div class="article-footer">
+          <span class="article-date">01/04/2023</span>
+          <a class="article-link" href="">читать статью</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="other-stuff-button" (click)="onOtherStuffClick()">Другие материалы</button>
+</section>
+
+<div class="messages-container">
+  @for (msg of messageService.messages; track msg.id) {
+  <ng-container [ngTemplateOutlet]="messageTemplate" [ngTemplateOutletContext]="{$implicit: msg}"></ng-container>
+  }
+</div>
+
+<ng-template #messageTemplate let-message>
+  <div class="toast-message" [ngClass]="'toast-' + message.type.toLowerCase()">
+    <div class="toast-icon">
+      <img src="/images/letter-icon.svg" alt="">
+    </div>
+    <div class="toast-content">
+      <div class="toast-title">{{ message.type }}</div>
+      <div class="toast-text">{{ message.text }}</div>
+    </div>
+    <button class="toast-close" (click)="messageService.closeMessage(message.id)">&times;</button>
+  </div>
+</ng-template>
 }
