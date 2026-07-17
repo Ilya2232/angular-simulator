@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { MessageService } from './services/message.service';
 import { MessageType } from '../enums/message-type.enum';
+import { StorageService } from '../interfaces/localStorage.service';
 
 @Component({
   selector: 'app-root',
@@ -47,7 +48,7 @@ export class AppComponent {
     }
   ]
 
-  constructor(public messageService: MessageService) {
+  constructor(public messageService: MessageService, private storageService: StorageService) {
     this.saveLastVisit();
     this.saveNumberOfVisits();
     this.startClock();
@@ -72,18 +73,13 @@ export class AppComponent {
   //3. Далее создать метод, которая сохраняет в локальное хранилище дату последнего захода на страницу. Вызывать ее в конструкторе.
   private saveLastVisit(): void {
     const date = new Date().toString();
-    localStorage.setItem('lastVisit', date);
+    this.storageService.setItem<string>('lastVisit', date);
   }
 
   //4. Далее создать метод, которая сохраняет в localStorage количество заходов на страницу.  Вызывать ее в конструкторе.
   private saveNumberOfVisits(): void {
-    let currentVisits = 0;
-    if (localStorage.getItem('visit') === null) {
-      currentVisits = 1;
-    } else {
-      currentVisits = Number(localStorage.getItem('visit')) + 1;
-    }
-    localStorage.setItem('visit', currentVisits.toString());
+    const visits = this.storageService.getItem<number>('visits') || 0;
+    this.storageService.setItem<number>('visits', visits + 1);
   }
 
   public selectService(serviceId: number): void {

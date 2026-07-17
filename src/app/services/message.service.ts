@@ -16,8 +16,8 @@ export class MessageService {
     this._messages.forEach(msg => this.startDestroyerTimer(msg.id));
   }
 
-  public get messages(): IMessage[] {
-    return this._messages;
+  public get messages(): readonly IMessage[] {
+    return [...this._messages];
   }
 
   public addMessage(text: string, type: MessageType) {

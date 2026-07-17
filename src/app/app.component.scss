@@ -694,13 +694,14 @@
   position: relative;
   padding: 16px 40px 16px 16px;
   border-radius: 12px;
-  background: rgba(45, 55, 72, 0.85); // Темный полупрозрачный фон
+  background: rgba(45, 55, 72, 0.85);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #ffffff;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
   animation: slideIn 0.3s ease-out;
+  pointer-events: auto;
 
   .toast-icon {
     margin-right: 16px;
@@ -723,7 +724,6 @@
     }
   }
 
-  // Кнопка закрытия (крестик)
   .toast-close {
     position: absolute;
     top: 12px;
