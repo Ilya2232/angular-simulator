@@ -2,11 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import './training';
 import { IService } from '../interfaces/IService';
 import { FormsModule } from '@angular/forms';
-import { NgClass } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { MessageService } from './services/message.service';
+import { MessageType } from '../enums/message-type.enum';
+import { StorageService } from '../interfaces/localStorage.service';
 
 @Component({
   selector: 'app-root',
-  imports: [FormsModule, NgClass],
+  imports: [FormsModule, NgClass, NgTemplateOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -45,27 +48,38 @@ export class AppComponent {
     }
   ]
 
-  constructor() {
+  constructor(public messageService: MessageService, private storageService: StorageService) {
     this.saveLastVisit();
     this.saveNumberOfVisits();
     this.startClock();
   }
 
+  public onProgramTourClick(): void {
+    this.messageService.addMessage('Программа недоступна', MessageType.WARN);
+  }
+
+  public onProgramPriceClick(): void {
+    this.messageService.addMessage('Стоимость отправлена на почту', MessageType.INFO);
+  }
+
+  public onRatingButtonClick(): void {
+    this.messageService.addMessage('Направления получены', MessageType.SUCCESS);
+  }
+
+  public onOtherStuffClick(): void {
+    this.messageService.addMessage('Материалы недоступны', MessageType.ERROR);
+  }
+
   //3. Далее создать метод, которая сохраняет в локальное хранилище дату последнего захода на страницу. Вызывать ее в конструкторе.
   private saveLastVisit(): void {
     const date = new Date().toString();
-    localStorage.setItem('lastVisit', date);
+    this.storageService.setItem<string>('lastVisit', date);
   }
 
   //4. Далее создать метод, которая сохраняет в localStorage количество заходов на страницу.  Вызывать ее в конструкторе.
   private saveNumberOfVisits(): void {
-    let currentVisits = 0;
-    if (localStorage.getItem('visit') === null) {
-      currentVisits = 1;
-    } else {
-      currentVisits = Number(localStorage.getItem('visit')) + 1;
-    }
-    localStorage.setItem('visit', currentVisits.toString());
+    const visits = this.storageService.getItem<number>('visits') || 0;
+    this.storageService.setItem<number>('visits', visits + 1);
   }
 
   public selectService(serviceId: number): void {
@@ -94,7 +108,7 @@ export class AppComponent {
     this.taskFour = !this.taskFour;
   }
 
-  private ngOnInit() {
+  public ngOnInit() {
     this.startClock();
 
     setTimeout(() => {
@@ -102,7 +116,7 @@ export class AppComponent {
     }, 2000)
   }
 
-  private ngOnDestroy() {
+  public ngOnDestroy() {
     if (this.clockIntervalId) {
       clearInterval(this.clockIntervalId);
     }
