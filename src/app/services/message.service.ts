@@ -2,22 +2,22 @@ import { Injectable } from '@angular/core';
 import { IMessage } from '../../interfaces/IService';
 import { MessageType } from '../../enums/message-type.enum';
 import { StorageService } from '../../interfaces/localStorage.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class MessageService {
-  private _messages: IMessage[] = [];
+  private _messages$ = new BehaviorSubject<IMessage[]>([]);
   private readonly STORAGE_KEY = 'active-notifications';
 
-  constructor(private storageService: StorageService) {
-    this._messages = storageService.getItem<IMessage[]>(this.STORAGE_KEY) || [];
-    this._messages.forEach(msg => this.startDestroyerTimer(msg.id));
-  }
+  public readonly messages$: Observable<IMessage[]> = this._messages$.asObservable();
 
-  public get messages(): readonly IMessage[] {
-    return [...this._messages];
+  constructor(private storageService: StorageService) {
+    const storedMessages = storageService.getItem<IMessage[]>(this.STORAGE_KEY) || [];
+    this._messages$.next(storedMessages);
+    storedMessages.forEach(msg => this.startDestroyerTimer(msg.id));
   }
 
   public showWarn(text: string): void {
@@ -43,18 +43,20 @@ export class MessageService {
       text: text,
       type: type
     }
-    this._messages.unshift(newMessage);
-    this.saveToStorage();
+    const updatedMessages = [newMessage, ...this._messages$.value];
+    this._messages$.next(updatedMessages);
+    this.saveToStorage(updatedMessages);
     this.startDestroyerTimer(id);
   }
 
   public closeMessage(id: number) {
-    this._messages = this._messages.filter(msg => msg.id !== id);
-    this.saveToStorage();
+    const updatedMessages = this._messages$.value.filter(msg => msg.id !== id);
+    this._messages$.next(updatedMessages);
+    this.saveToStorage(updatedMessages);
   }
 
-  private saveToStorage(): void {
-    this.storageService.setItem<IMessage[]>(this.STORAGE_KEY, this._messages);
+  private saveToStorage(messages: IMessage[]): void {
+    this.storageService.setItem<IMessage[]>(this.STORAGE_KEY, messages);
   }
 
   private startDestroyerTimer(id: number): void {
