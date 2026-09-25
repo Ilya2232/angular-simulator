@@ -38,6 +38,9 @@ export class UserCreateComponent {
   });
 
   public onSubmit(): void {
+    if (this.userForm.invalid) {
+      return;
+    }
     const newCreatedUser: IUser = {
       id: Date.now(),
       ...this.userForm.value
