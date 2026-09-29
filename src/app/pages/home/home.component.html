@@ -189,22 +189,3 @@
   </div>
   <button class="pinterest-button">Наш pinterest</button>
 </section>
-
-<div class="messages-container">
-  @for (msg of messageService.messages; track msg.id) {
-  <ng-container [ngTemplateOutlet]="messageTemplate" [ngTemplateOutletContext]="{$implicit: msg}"></ng-container>
-  }
-</div>
-
-<ng-template #messageTemplate let-message>
-  <div class="toast-message" [ngClass]="'toast-' + message.type.toLowerCase()">
-    <div class="toast-icon">
-      <img src="/images/letter-icon.svg" alt="">
-    </div>
-    <div class="toast-content">
-      <div class="toast-title">{{ message.type }}</div>
-      <div class="toast-text">{{ message.text }}</div>
-    </div>
-    <button class="toast-close" (click)="messageService.closeMessage(message.id)">&times;</button>
-  </div>
-</ng-template>
