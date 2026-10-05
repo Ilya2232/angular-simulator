@@ -3,8 +3,8 @@
     <div class="header-container">
       <div class="company-logo">
         <a href="">
-          <img class="vector-image" src="/images/vector-icon.svg" alt="">
-          <img class="name-image" src="/images/name-icon.svg" alt="">
+          <fa-icon [icon]="['fas', 'mountain']" class="vector-image"></fa-icon>
+          <span class="name-image">РУМТИБЕТ</span>
         </a>
       </div>
       <nav class="navigator">
@@ -20,6 +20,17 @@
       </nav>
       <div class="right-side-actions">
         <button class="consultation-button">Консультация</button>
+        @let isDark = (colorMode$ | async) === ColorMode.DARK;
+
+        <div class="theme-switch">
+          <fa-icon [icon]="['fas', 'sun']" [class.active]="!isDark"></fa-icon>
+
+          <p-toggleswitch [ngModel]="isDark" (onChange)="onToggleColorMode()" />
+
+          <fa-icon [icon]="['fas', 'moon']" [class.active]="isDark"></fa-icon>
+        </div>
+        <p-selectbutton [options]="themeOptions" [ngModel]="theme$ | async" (onChange)="onSetTheme($event.value)"
+          optionLabel="label" optionValue="value" [allowEmpty]="false" />
         <div class="tasks-dropdown">
           @if (taskFour) {
           <div class="header-timer">{{ currentDateTime }}</div>
