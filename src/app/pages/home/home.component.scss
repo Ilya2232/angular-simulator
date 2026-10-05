@@ -32,7 +32,7 @@
       line-height: 150%;
       letter-spacing: 2%;
       text-transform: uppercase;
-      color: var(--primary-color);
+      color: var(--text-color);
       text-align: left;
     }
   }
@@ -249,8 +249,9 @@
 }
 
 .hike-offer {
-  background-color: #F3F5F4;
+  background-color: var(--bg-secondary);
 }
+
 
 .hike-offer__container {
   display: flex;
@@ -260,7 +261,7 @@
   justify-content: space-between;
   align-items: center;
   margin-top: 120px;
-  background-color: #F3F5F4;
+  background-color: var(--bg-secondary);
 
   .offer-title {
     width: 580px;
@@ -440,7 +441,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #F3F5F4;
+  background-color: var(--bg-secondary);
   height: 1036px;
 
   .travel-blog-title {
@@ -464,7 +465,7 @@
       line-height: 120%;
       letter-spacing: 0%;
       text-align: center;
-      color: #18121E;
+      color: var(--text-color);
       margin: 8px 0px 0px 0px;
     }
   }
@@ -475,12 +476,13 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    background-color: var(--bg-secondary);
 
     .travel-blog-card {
       width: 580px;
       height: 312px;
       display: flex;
-      background-color: #fff;
+      background-color: var(--bg-secondary);
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
       padding: 16px;
@@ -647,7 +649,7 @@
     line-height: 120%;
     letter-spacing: 0%;
     text-align: center;
-    color: #18121E;
+    color: var(--text-color);
     margin: 8px 0px 0px 0px;
   }
 
