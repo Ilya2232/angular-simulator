@@ -6,11 +6,12 @@ import { UserService } from '../../services/user.service';
 import { UserCardComponent } from '../../components/user-card/user-card.component';
 import { UserCreateComponent } from '../../components/user-create/user-create.component';
 import { UsersFilterComponent } from '../../components/users-filter/users-filter.component';
+import { PluralPipe } from '../../pipes/plural.pipe';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [AsyncPipe, UserCardComponent, UserCreateComponent, UsersFilterComponent],
+  imports: [AsyncPipe, UserCardComponent, UserCreateComponent, UsersFilterComponent, PluralPipe],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss',
 })
