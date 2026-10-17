@@ -7,7 +7,7 @@
 <ng-template #messageTemplate let-message>
   <div class="toast-message" [ngClass]="'toast-' + message.type.toLowerCase()">
     <div class="toast-icon">
-      <img src="/images/letter-icon.svg" alt="">
+      <fa-icon [icon]="['fas', 'envelope']"></fa-icon>
     </div>
     <div class="toast-content">
       <div class="toast-title">{{ message.type }}</div>

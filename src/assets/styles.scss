@@ -10,3 +10,49 @@
   --primary-color: #FDFDFD;
   --secondary-color: #18121E;
 }
+
+body {
+  --accent: var(--p-primary-color);
+  --accent-contrast: var(--p-primary-contrast-color);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.light-mode {
+  --bg-color: #ffffff;
+  --bg-secondary: #f3f5f4;
+  --card-bg: #ffffff;
+  --text-color: #18121e;
+}
+
+body.dark-mode {
+  --bg-color: #121019;
+  --bg-secondary: #1e1b26;
+  --card-bg: #1e1b26;
+  --text-color: #f1f5f9;
+}
+
+body.light-mode.theme-aura {
+  --text-color: #14532d;
+}
+
+body.light-mode.theme-lara {
+  --text-color: #1e3a8a;
+}
+
+body.light-mode.theme-nora {
+  --text-color: #7c2d12;
+}
+
+body.dark-mode.theme-aura {
+  --text-color: #bbf7d0;
+}
+
+body.dark-mode.theme-lara {
+  --text-color: #bfdbfe;
+}
+
+body.dark-mode.theme-nora {
+  --text-color: #fed7aa;
+}
