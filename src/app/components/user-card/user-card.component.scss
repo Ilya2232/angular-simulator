@@ -17,7 +17,8 @@
 }
 
 .user-card {
-  background: #ffffff;
+  background: var(--card-bg);
+  color: var(--text-color);
   border-top: 3px solid #d4a317;
   border-radius: 4px;
   padding: 24px;
