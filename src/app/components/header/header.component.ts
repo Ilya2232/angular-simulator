@@ -25,7 +25,8 @@ interface NavLink {
 export class HeaderComponent implements OnInit, OnDestroy {
   navLinks: NavLink[] = [
     { label: 'Главная', path: '/' },
-    { label: 'Пользователи', path: '/users' }
+    { label: 'Пользователи', path: '/users' },
+    { label: 'Посты', path: '/posts' }
   ]
   public ColorMode = ColorMode;
   public AppTheme = AppTheme;

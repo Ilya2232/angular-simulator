@@ -6,11 +6,12 @@ import Aura from '@primeuix/themes/aura';
 import { routes } from './app.routes';
 import { loggingInterceptor } from './interceptors/logging.interceptor';
 import { errorInterceptor } from './interceptors/error.interceptor';
+import { loaderInterceptor } from './interceptors/loader.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideHttpClient(withInterceptors([loggingInterceptor, errorInterceptor])),
+    provideHttpClient(withInterceptors([loggingInterceptor, errorInterceptor, loaderInterceptor])),
     provideRouter(routes),
     provideZoneChangeDetection(),
     provideHttpClient(),

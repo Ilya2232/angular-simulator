@@ -1,0 +1,10 @@
+<div class="post-detail">
+  <p-card [header]="post.title">
+    <p>{{ post.body }}</p>
+    <p>Теги: {{ post.tags.join(', ') }}</p>
+    <p>Просмотры: {{ post.views }}</p>
+    <p>Лайки: {{ post.reactions.likes }}, дизлайки: {{ post.reactions.dislikes }}</p>
+    <p>Автор (userId): {{ post.userId }}</p>
+  </p-card>
+  <a pButton routerLink="/posts">Назад к списку</a>
+</div>
