@@ -1,0 +1,16 @@
+<div class="post-create">
+  <h1>Новый пост</h1>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <input pInputText formControlName="title" placeholder="Title" />
+    <textarea pTextarea formControlName="body" rows="5" placeholder="Body"></textarea>
+    <input pInputText formControlName="tags" placeholder="Tags через запятую" />
+    <input pInputText type="number" formControlName="views" placeholder="Views" />
+    <input pInputText type="number" formControlName="userId" placeholder="User ID" />
+    <input pInputText type="number" formControlName="likes" placeholder="Likes" />
+    <input pInputText type="number" formControlName="dislikes" placeholder="Dislikes" />
+    <div class="actions">
+      <button pButton type="submit" [disabled]="form.invalid">Сохранить</button>
+      <a pButton routerLink="/posts">Отмена</a>
+    </div>
+  </form>
+</div>
