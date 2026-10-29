@@ -19,6 +19,10 @@
         </ul>
       </nav>
       <div class="right-side-actions">
+        @if (user$ | async; as user) {
+        <span class="user-name">{{ user.firstName }}</span>
+        <button class="consultation-button" (click)="onLogout()">Выйти</button>
+        }
         <button class="consultation-button">Консультация</button>
         @let isDark = (colorMode$ | async) === ColorMode.DARK;
 

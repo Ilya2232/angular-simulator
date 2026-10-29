@@ -9,6 +9,8 @@ import { AsyncPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { AuthService } from '../../features/auth/services/auth.service';
+import { inject } from '@angular/core';
 
 interface NavLink {
   label: string;
@@ -30,6 +32,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ]
   public ColorMode = ColorMode;
   public AppTheme = AppTheme;
+  private auth = inject(AuthService);
+  user$ = this.auth.user$;
 
   public themeOptions = [
     { label: 'Aura', value: AppTheme.AURA },
@@ -56,6 +60,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public onSetTheme(theme: AppTheme): void {
     this.themeService.setTheme(theme);
+  }
+
+  onLogout(): void {
+    this.auth.logout();
   }
 
   ngOnInit(): void {
