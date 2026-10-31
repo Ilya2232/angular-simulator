@@ -6,7 +6,7 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
-      import('./features/auth/pages/login/login.component').then(m => m.LoginComponent),
+      import('./features/auth/pages/login/login.component').then((m) => m.LoginComponent),
   },
   {
     path: '',
@@ -14,22 +14,23 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
+        loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
       },
       {
         path: 'users',
         canActivate: [adminGuard],
-        loadComponent: () => import('./pages/users/user.component').then(m => m.UsersComponent)
+        loadComponent: () => import('./pages/users/user.component').then((m) => m.UsersComponent),
       },
       {
         path: 'posts',
         canActivate: [adminGuard],
-        loadChildren: () => import('./features/posts/posts.routes').then(m => m.POSTS_ROUTES),
+        loadChildren: () => import('./features/posts/posts.routes').then((m) => m.POSTS_ROUTES),
       },
       {
         path: '**',
-        loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent)
-      }
-    ]
-  }
+        loadComponent: () =>
+          import('./pages/not-found/not-found.component').then((m) => m.NotFoundComponent),
+      },
+    ],
+  },
 ];

@@ -6,22 +6,26 @@
     <span class="user-card__section-title">Контакты</span>
     <div class="user-card__row">
       <span>Эл. почта:</span>
-      @if(user.email) {
-      <a class="user-card__link" [href]="'https://' + user.email">{{ user.email }}</a>
+      @if (user.email) {
+        <a class="user-card__link" [href]="'https://' + user.email">{{ user.email }}</a>
       } @else {
-      <span class="user-card__value">Неизвестно</span>
+        <span class="user-card__value">Неизвестно</span>
       }
     </div>
     <div class="user-card__row">
       <span>Телефон:</span>
-      <span class="user-card__value">{{ user.phone ? (user.phone | phone:'masked') : 'Неизвестно' }}</span>
+      <span class="user-card__value">{{
+        user.phone ? (user.phone | phone: 'masked') : 'Неизвестно'
+      }}</span>
     </div>
     <div class="user-card__row">
       <span>Веб-сайт:</span>
-      @if(user.website) {
-      <a class="user-card__link" [href]="'https://' + user.website" target="_blank">{{ user.website }}</a>
+      @if (user.website) {
+        <a class="user-card__link" [href]="'https://' + user.website" target="_blank">{{
+          user.website
+        }}</a>
       } @else {
-      <span class="user-card__value">Неизвестно</span>
+        <span class="user-card__value">Неизвестно</span>
       }
     </div>
   </div>

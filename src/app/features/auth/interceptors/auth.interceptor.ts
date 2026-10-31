@@ -19,12 +19,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         return throwError(() => error);
       }
       return auth.refreshToken().pipe(
-        switchMap(res => next(addToken(req, res.accessToken))),
-        catchError(refreshError => {
+        switchMap((res) => next(addToken(req, res.accessToken))),
+        catchError((refreshError) => {
           auth.logout();
           return throwError(() => refreshError);
-        })
+        }),
       );
-    })
+    }),
   );
 };

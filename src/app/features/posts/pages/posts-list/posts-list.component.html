@@ -4,10 +4,20 @@
 
   <p-contextmenu #cm [model]="menuItems" />
 
-  <p-table [value]="loading ? skeletonRows : posts" [lazy]="true" (onLazyLoad)="onLazyLoad($event)" [paginator]="true"
-    [rows]="rows" [first]="first" [totalRecords]="total" [rowsPerPageOptions]="[10, 20, 50]"
-    [showCurrentPageReport]="true" currentPageReportTemplate="Всего записей: {totalRecords}" [contextMenu]="cm"
-    [(contextMenuSelection)]="selectedPost">
+  <p-table
+    [value]="loading ? skeletonRows : posts"
+    [lazy]="true"
+    (onLazyLoad)="onLazyLoad($event)"
+    [paginator]="true"
+    [rows]="rows"
+    [first]="first"
+    [totalRecords]="total"
+    [rowsPerPageOptions]="[10, 20, 50]"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Всего записей: {totalRecords}"
+    [contextMenu]="cm"
+    [(contextMenuSelection)]="selectedPost"
+  >
     <ng-template #header>
       <tr>
         <th>Title</th>
@@ -18,22 +28,27 @@
 
     <ng-template #body let-post>
       @if (loading) {
-      <tr>
-        <td><p-skeleton /></td>
-        <td><p-skeleton /></td>
-        <td><p-skeleton /></td>
-      </tr>
+        <tr>
+          <td><p-skeleton /></td>
+          <td><p-skeleton /></td>
+          <td><p-skeleton /></td>
+        </tr>
       } @else {
-      <tr [pContextMenuRow]="post" (dblclick)="onView(post)">
-        <td>{{ post.title }}</td>
-        <td>{{ post.tags.join(', ') }}</td>
-        <td>{{ post.views }}</td>
-      </tr>
+        <tr [pContextMenuRow]="post" (dblclick)="onView(post)">
+          <td>{{ post.title }}</td>
+          <td>{{ post.tags.join(', ') }}</td>
+          <td>{{ post.views }}</td>
+        </tr>
       }
     </ng-template>
   </p-table>
 
-  <p-dialog header="Редактирование поста" [(visible)]="dialogVisible" [modal]="true" [style]="{ width: '420px' }">
+  <p-dialog
+    header="Редактирование поста"
+    [(visible)]="dialogVisible"
+    [modal]="true"
+    [style]="{ width: '420px' }"
+  >
     <form [formGroup]="editForm" (ngSubmit)="saveEdit()" class="edit-form">
       <input pInputText formControlName="title" placeholder="Title" />
       <input pInputText formControlName="tags" placeholder="Tags через запятую" />
