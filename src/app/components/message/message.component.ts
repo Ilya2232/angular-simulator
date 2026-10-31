@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgTemplateOutlet, NgClass, AsyncPipe } from '@angular/common';
 import { MessageService } from '../../services/message.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -11,5 +11,5 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   styleUrl: './message.component.scss',
 })
 export class MessageComponent {
-  constructor(public messageService: MessageService) { }
+  messageService = inject(MessageService);
 }

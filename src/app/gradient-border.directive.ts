@@ -1,34 +1,43 @@
-import { Directive, ElementRef, HostListener, Input, OnDestroy, Renderer2, RendererStyleFlags2 } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  HostListener,
+  Input,
+  OnDestroy,
+  Renderer2,
+  RendererStyleFlags2,
+  inject,
+} from '@angular/core';
 
-export interface GradientConfig {
+export interface IGradientConfig {
   delay?: number;
   colors?: string[];
-  thickness?: string
+  thickness?: string;
 }
 
-const DEFAULTS: Required<GradientConfig> = {
+const DEFAULTS: Required<IGradientConfig> = {
   delay: 1000,
   colors: ['yellow', 'green', 'red'],
-  thickness: '2px'
-}
+  thickness: '2px',
+};
 
 @Directive({
   selector: '[appGradientBorder]',
-  standalone: true
+  standalone: true,
 })
 export class GradientBorderDirective implements OnDestroy {
+  private renderer = inject(Renderer2);
+  private el = inject(ElementRef);
 
-  @Input() GradientConfiguration: GradientConfig = {};
+  @Input() GradientConfiguration: IGradientConfig = {};
 
   private timerId: ReturnType<typeof setTimeout> | null = null;
-
-  constructor(private renderer: Renderer2, private el: ElementRef) { }
 
   @HostListener('mouseenter')
   onEnter(): void {
     const cfg = { ...DEFAULTS, ...this.GradientConfiguration };
-    this.clearTimer()
-    this.timerId = setTimeout(() => this.activate(cfg), cfg.delay)
+    this.clearTimer();
+    this.timerId = setTimeout(() => this.activate(cfg), cfg.delay);
   }
 
   @HostListener('mouseleave')
@@ -37,7 +46,7 @@ export class GradientBorderDirective implements OnDestroy {
     this.diactivate();
   }
 
-  private activate(cfg: Required<GradientConfig>): void {
+  private activate(cfg: Required<IGradientConfig>): void {
     const el = this.el.nativeElement;
     this.renderer.setStyle(el, '--gb-colors', cfg.colors.join(', '), RendererStyleFlags2.DashCase);
     this.renderer.setStyle(el, '--gb-thickness', cfg.thickness, RendererStyleFlags2.DashCase);
@@ -61,5 +70,4 @@ export class GradientBorderDirective implements OnDestroy {
   ngOnDestroy(): void {
     this.clearTimer();
   }
-
 }

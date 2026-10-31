@@ -21,14 +21,14 @@ export class LoginComponent {
 
   loginForm = this.fb.nonNullable.group({
     username: ['', Validators.required],
-    password: ['', Validators.required]
+    password: ['', Validators.required],
   });
 
   onSubmit(): void {
     if (this.loginForm.invalid) return;
     this.auth.login(this.loginForm.getRawValue()).subscribe({
       next: () => this.router.navigate(['/']),
-      error: () => this.messageService.showError('Неверный пароль или логин')
+      error: () => this.messageService.showError('Неверный пароль или логин'),
     });
   }
 }

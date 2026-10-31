@@ -8,8 +8,7 @@ export interface IUserAuth {
   role?: string;
 }
 
-export interface IAuth extends IUserAuth, ITokens {
-}
+export interface IAuth extends IUserAuth, ITokens {}
 
 export interface ILoginRequest {
   username: string;

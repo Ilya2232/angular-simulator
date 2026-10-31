@@ -29,23 +29,23 @@ export class UserCreateComponent {
       geo: new FormGroup({
         lat: new FormControl(''),
         lng: new FormControl(''),
-      })
+      }),
     }),
 
     company: new FormGroup({
       name: new FormControl(''),
       catchPhrase: new FormControl(''),
-      bs: new FormControl('')
-    })
+      bs: new FormControl(''),
+    }),
   });
 
-  public onSubmit(): void {
+  onSubmit(): void {
     if (this.userForm.invalid) {
       return;
     }
     const newCreatedUser: IUser = {
       id: Date.now(),
-      ...this.userForm.value
+      ...this.userForm.value,
     } as IUser;
     this.createUser.emit(newCreatedUser);
     this.userForm.reset();

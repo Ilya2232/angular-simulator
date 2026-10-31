@@ -14,6 +14,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       else if (error.status >= 500) text = 'Ошибка сервера. Попробуйте позже.';
       messageService.showError(text);
       return throwError(() => error);
-    })
+    }),
   );
 };

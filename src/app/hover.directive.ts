@@ -1,14 +1,13 @@
-import { Directive, ElementRef, HostBinding, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostBinding, HostListener, inject } from '@angular/core';
 
 @Directive({
   selector: '[appHover]',
-  standalone: true
+  standalone: true,
 })
 export class HoverDirective {
+  private el = inject(ElementRef);
 
-  constructor(private el: ElementRef) { }
-
-  @HostBinding('style.font-weight') fontWeight: string = 'normal';
+  @HostBinding('style.font-weight') fontWeight = 'normal';
 
   @HostListener('mouseenter')
   onEnter() {

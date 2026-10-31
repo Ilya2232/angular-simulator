@@ -1,38 +1,41 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IMessage } from '../../interfaces/IService';
 import { MessageType } from '../../enums/message-type.enum';
 import { StorageService } from '../../interfaces/localStorage.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class MessageService {
+  private storageService = inject(StorageService);
+
   private _messages$ = new BehaviorSubject<IMessage[]>([]);
   private readonly STORAGE_KEY = 'active-notifications';
 
-  public readonly messages$: Observable<IMessage[]> = this._messages$.asObservable();
+  readonly messages$: Observable<IMessage[]> = this._messages$.asObservable();
 
-  constructor(private storageService: StorageService) {
+  constructor() {
+    const storageService = this.storageService;
+
     const storedMessages = storageService.getItem<IMessage[]>(this.STORAGE_KEY) || [];
     this._messages$.next(storedMessages);
-    storedMessages.forEach(msg => this.startDestroyerTimer(msg.id));
+    storedMessages.forEach((msg) => this.startDestroyerTimer(msg.id));
   }
 
-  public showWarn(text: string): void {
+  showWarn(text: string): void {
     this.addMessage(text, MessageType.WARN);
   }
 
-  public showInfo(text: string): void {
+  showInfo(text: string): void {
     this.addMessage(text, MessageType.INFO);
   }
 
-  public showSuccess(text: string): void {
+  showSuccess(text: string): void {
     this.addMessage(text, MessageType.SUCCESS);
   }
 
-  public showError(text: string): void {
+  showError(text: string): void {
     this.addMessage(text, MessageType.ERROR);
   }
 
@@ -41,16 +44,16 @@ export class MessageService {
     const newMessage: IMessage = {
       id: id,
       text: text,
-      type: type
-    }
+      type: type,
+    };
     const updatedMessages = [newMessage, ...this._messages$.value];
     this._messages$.next(updatedMessages);
     this.saveToStorage(updatedMessages);
     this.startDestroyerTimer(id);
   }
 
-  public closeMessage(id: number) {
-    const updatedMessages = this._messages$.value.filter(msg => msg.id !== id);
+  closeMessage(id: number) {
+    const updatedMessages = this._messages$.value.filter((msg) => msg.id !== id);
     this._messages$.next(updatedMessages);
     this.saveToStorage(updatedMessages);
   }
@@ -62,6 +65,6 @@ export class MessageService {
   private startDestroyerTimer(id: number): void {
     setTimeout(() => {
       this.closeMessage(id);
-    }, 5000)
+    }, 5000);
   }
 }

@@ -2,16 +2,19 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'plural',
-  standalone: true
+  standalone: true,
 })
 export class PluralPipe implements PipeTransform {
-
-  transform(value: number | string | null | undefined, one: string, few: string, many: string): string {
-    const num = Number(value)
+  transform(
+    value: number | string | null | undefined,
+    one: string,
+    few: string,
+    many: string,
+  ): string {
+    const num = Number(value);
     if (Number.isNaN(value)) {
-      return many
+      return many;
     }
-    const updatenum = Math.floor(Math.abs(num));
 
     const mod10 = num % 10;
     const mod100 = num % 100;
@@ -26,7 +29,6 @@ export class PluralPipe implements PipeTransform {
       return few;
     }
 
-    return many
+    return many;
   }
-
 }

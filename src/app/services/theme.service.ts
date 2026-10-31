@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { StorageService } from '../../interfaces/localStorage.service';
 import { ColorMode, AppTheme } from '../../enums/theme.enum';
@@ -7,6 +7,8 @@ import { ColorMode, AppTheme } from '../../enums/theme.enum';
   providedIn: 'root',
 })
 export class ThemeService {
+  private storageService = inject(StorageService);
+
   private readonly COLOR_MODE_KEY = 'colorMode';
   private readonly THEME_KEY = 'theme';
 
@@ -16,10 +18,10 @@ export class ThemeService {
   private _colorMode$: BehaviorSubject<ColorMode>;
   private _theme$: BehaviorSubject<AppTheme>;
 
-  public colorMode$: Observable<ColorMode>;
-  public theme$: Observable<AppTheme>;
+  colorMode$: Observable<ColorMode>;
+  theme$: Observable<AppTheme>;
 
-  constructor(private storageService: StorageService) {
+  constructor() {
     this._colorMode$ = new BehaviorSubject<ColorMode>(this.getInitialColorMode());
     this._theme$ = new BehaviorSubject<AppTheme>(this.getInitialTheme());
 
@@ -45,17 +47,17 @@ export class ThemeService {
     }
   }
 
-  public setColorMode(mode: ColorMode): void {
+  setColorMode(mode: ColorMode): void {
     this._colorMode$.next(mode);
     this.storageService.setItem<ColorMode>(this.COLOR_MODE_KEY, mode);
   }
 
-  public setTheme(theme: AppTheme): void {
+  setTheme(theme: AppTheme): void {
     this._theme$.next(theme);
     this.storageService.setItem<AppTheme>(this.THEME_KEY, theme);
   }
 
-  public toggleColorMode(): void {
+  toggleColorMode(): void {
     const currentMode = this._colorMode$.value;
     const newMode = currentMode === ColorMode.LIGHT ? ColorMode.DARK : ColorMode.LIGHT;
     this.setColorMode(newMode);

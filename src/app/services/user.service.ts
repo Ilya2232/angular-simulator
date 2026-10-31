@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, finalize, of, tap } from 'rxjs';
 import { IUser } from '../../interfaces/IUser';
 import { UserApiService } from './user-api.service';
@@ -10,37 +10,35 @@ import { StorageService } from '../../interfaces/localStorage.service';
   providedIn: 'root',
 })
 export class UserService {
+  private userApiService = inject(UserApiService);
+  private loaderService = inject(LoaderService);
+  private messageService = inject(MessageService);
+  private storageService = inject(StorageService);
+
   private readonly STORAGE_KEY = 'users';
 
   private _users$ = new BehaviorSubject<IUser[]>([]);
 
-  constructor(
-    private userApiService: UserApiService,
-    private loaderService: LoaderService,
-    private messageService: MessageService,
-    private storageService: StorageService
-  ) { }
-
-  public setUsers(users: IUser[]): void {
+  setUsers(users: IUser[]): void {
     this._users$.next(users);
     this.storageService.setItem<IUser[]>(this.STORAGE_KEY, users);
   }
 
-  public getUsers(): Observable<IUser[]> {
+  getUsers(): Observable<IUser[]> {
     return this._users$.asObservable();
   }
 
-  public deleteUser(id: number): void {
-    const updatedUsers = this._users$.value.filter(user => user.id !== id);
+  deleteUser(id: number): void {
+    const updatedUsers = this._users$.value.filter((user) => user.id !== id);
     this.setUsers(updatedUsers);
   }
 
-  public addUser(user: IUser): void {
+  addUser(user: IUser): void {
     const addedUsers = [user, ...this._users$.value];
     this.setUsers(addedUsers);
   }
 
-  public loadUsers(): Observable<IUser[]> {
+  loadUsers(): Observable<IUser[]> {
     const storedUsers = this.storageService.getItem<IUser[]>(this.STORAGE_KEY);
 
     if (storedUsers && storedUsers.length > 0) {
@@ -57,7 +55,7 @@ export class UserService {
         this.setUsers([]);
         return of([]);
       }),
-      finalize(() => this.loaderService.hideLoader())
+      finalize(() => this.loaderService.hideLoader()),
     );
   }
 }

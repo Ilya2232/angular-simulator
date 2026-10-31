@@ -12,7 +12,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { AuthService } from '../../features/auth/services/auth.service';
 import { inject } from '@angular/core';
 
-interface NavLink {
+interface INavLink {
   label: string;
   path: string;
 }
@@ -20,45 +20,57 @@ interface NavLink {
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [NgClass, RouterLink, RouterLinkActive, FontAwesomeModule, ToggleSwitch, AsyncPipe, FormsModule, SelectButtonModule],
+  imports: [
+    NgClass,
+    RouterLink,
+    RouterLinkActive,
+    FontAwesomeModule,
+    ToggleSwitch,
+    AsyncPipe,
+    FormsModule,
+    SelectButtonModule,
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  navLinks: NavLink[] = [
+  private themeService = inject(ThemeService);
+
+  navLinks: INavLink[] = [
     { label: 'Главная', path: '/' },
     { label: 'Пользователи', path: '/users' },
-    { label: 'Посты', path: '/posts' }
-  ]
-  public ColorMode = ColorMode;
-  public AppTheme = AppTheme;
+    { label: 'Посты', path: '/posts' },
+  ];
+
+  ColorMode = ColorMode;
+  AppTheme = AppTheme;
   private auth = inject(AuthService);
   user$ = this.auth.user$;
 
-  public themeOptions = [
+  themeOptions = [
     { label: 'Aura', value: AppTheme.AURA },
     { label: 'Nora', value: AppTheme.NORA },
-    { label: 'Lara', value: AppTheme.LARA }
-  ]
+    { label: 'Lara', value: AppTheme.LARA },
+  ];
 
-  public colorMode$: Observable<ColorMode>;
-  public theme$: Observable<AppTheme>;
+  colorMode$: Observable<ColorMode>;
+  theme$: Observable<AppTheme>;
 
-  constructor(private themeService: ThemeService) {
+  constructor() {
     this.colorMode$ = this.themeService.colorMode$;
     this.theme$ = this.themeService.theme$;
   }
 
-  currentDateTime: string = '';
-  clickCount: number = 0;
-  taskFour: boolean = true;
-  clockIntervalId: any;
+  currentDateTime = '';
+  clickCount = 0;
+  taskFour = true;
+  clockIntervalId: ReturnType<typeof setInterval> | null = null;
 
-  public onToggleColorMode(): void {
+  onToggleColorMode(): void {
     this.themeService.toggleColorMode();
   }
 
-  public onSetTheme(theme: AppTheme): void {
+  onSetTheme(theme: AppTheme): void {
     this.themeService.setTheme(theme);
   }
 
@@ -83,17 +95,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  public increment(): void {
+  increment(): void {
     this.clickCount += 1;
   }
 
-  public decrement(): void {
+  decrement(): void {
     if (this.clickCount > 0) {
       this.clickCount -= 1;
     }
   }
 
-  public toggleTask(): void {
+  toggleTask(): void {
     this.taskFour = !this.taskFour;
   }
 }

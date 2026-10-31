@@ -9,7 +9,7 @@ class Collection<T> {
   }
 
   getAll(): T[] {
-    return this.items
+    return this.items;
   }
 
   getSpecificItem(index: number): T {

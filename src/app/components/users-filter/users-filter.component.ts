@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -16,13 +16,11 @@ export class UsersFilterComponent {
   searchControl = new FormControl('');
 
   constructor() {
-    this.searchControl.valueChanges.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      takeUntilDestroyed()
-    ).subscribe(value => {
-      const searchTerm = (value || null)?.toLowerCase().trim();
-      this.filterChange.emit(searchTerm);
-    })
+    this.searchControl.valueChanges
+      .pipe(debounceTime(200), distinctUntilChanged(), takeUntilDestroyed())
+      .subscribe((value) => {
+        const searchTerm = (value || null)?.toLowerCase().trim();
+        this.filterChange.emit(searchTerm);
+      });
   }
 }
