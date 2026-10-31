@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
 import { IAuth, ILoginRequest, IUserAuth, ITokens } from '../models/auth.model';
+import { switchMap } from 'rxjs';
 
 const ACCESS_KEY = 'accessToken';
 const REFRESH_KEY = 'refreshToken';
@@ -17,12 +18,20 @@ export class AuthService {
   public user$ = this._user$.asObservable();
   public isLoggedIn$ = this.user$.pipe(map(user => !!user));
 
-  login(data: ILoginRequest): Observable<IAuth> {
+  private loadRole(user: IUserAuth): Observable<IUserAuth> {
+    return this.http.get<{ role: string }>(`https://dummyjson.com/users/${user.id}?select=role`).pipe(
+      map(res => ({ ...user, role: res.role })),
+      catchError(() => of(user))
+    );
+  }
+
+  login(data: ILoginRequest): Observable<IUserAuth> {
     return this.http.post<IAuth>(`${this.url}/login`, data).pipe(
       tap(response => {
         this.saveTokens(response.accessToken, response.refreshToken);
-        this._user$.next(response)
-      })
+      }),
+      switchMap(response => this.loadRole(response)),
+      tap(user => this._user$.next(user))
     )
   }
 
@@ -31,6 +40,7 @@ export class AuthService {
       return of(null);
     } else {
       return this.http.get<IUserAuth>(`${this.url}/me`).pipe(
+        switchMap(user => this.loadRole(user)),
         tap(user => this._user$.next(user)),
         catchError(() => of(null))
       );

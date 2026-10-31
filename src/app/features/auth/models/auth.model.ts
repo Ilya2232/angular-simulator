@@ -5,6 +5,7 @@ export interface IUserAuth {
   firstName: string;
   lastName: string;
   image: string;
+  role?: string;
 }
 
 export interface IAuth extends IUserAuth, ITokens {
