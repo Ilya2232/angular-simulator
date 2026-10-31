@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './features/auth/guards/auth.guard';
+import { adminGuard } from './features/auth/guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -17,10 +18,12 @@ export const routes: Routes = [
       },
       {
         path: 'users',
+        canActivate: [adminGuard],
         loadComponent: () => import('./pages/users/user.component').then(m => m.UsersComponent)
       },
       {
         path: 'posts',
+        canActivate: [adminGuard],
         loadChildren: () => import('./features/posts/posts.routes').then(m => m.POSTS_ROUTES),
       },
       {
