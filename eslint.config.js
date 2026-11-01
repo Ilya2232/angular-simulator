@@ -60,4 +60,10 @@ module.exports = defineConfig([
     },
   },
   prettierRecommended,
+  {
+    files: ['**/*.ts'],
+    rules: {
+      'prettier/prettier': 'off',
+    },
+  },
 ]);
