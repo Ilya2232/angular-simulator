@@ -36,7 +36,10 @@ export class PostCreateComponent {
     const data: IPostCreate = {
       title: v.title,
       body: v.body,
-      tags: v.tags.split(',').map((t) => t.trim()).filter(Boolean),
+      tags: v.tags
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean),
       views: Number(v.views),
       userId: Number(v.userId),
       reactions: { likes: Number(v.likes), dislikes: Number(v.dislikes) },

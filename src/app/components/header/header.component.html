@@ -10,18 +10,22 @@
       <nav class="navigator">
         <ul>
           @for (link of navLinks; track link.path) {
-          <li>
-            <a [routerLink]="link.path" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
-              {{ link.label }}
-            </a>
-          </li>
+            <li>
+              <a
+                [routerLink]="link.path"
+                routerLinkActive="active-link"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                {{ link.label }}
+              </a>
+            </li>
           }
         </ul>
       </nav>
       <div class="right-side-actions">
         @if (user$ | async; as user) {
-        <span class="user-name">{{ user.firstName }}</span>
-        <button class="consultation-button" (click)="onLogout()">Выйти</button>
+          <span class="user-name">{{ user.firstName }}</span>
+          <button class="consultation-button" (click)="onLogout()">Выйти</button>
         }
         <button class="consultation-button">Консультация</button>
         @let isDark = (colorMode$ | async) === ColorMode.DARK;
@@ -33,18 +37,23 @@
 
           <fa-icon [icon]="['fas', 'moon']" [class.active]="isDark"></fa-icon>
         </div>
-        <p-selectbutton [options]="themeOptions" [ngModel]="theme$ | async" (onChange)="onSetTheme($event.value)"
-          optionLabel="label" optionValue="value" [allowEmpty]="false" />
+        <p-selectbutton
+          [options]="themeOptions"
+          [ngModel]="theme$ | async"
+          (onChange)="onSetTheme($event.value)"
+          optionLabel="label"
+          optionValue="value"
+          [allowEmpty]="false"
+        />
         <div class="tasks-dropdown">
           @if (taskFour) {
-          <div class="header-timer">{{ currentDateTime }}</div>
-          }
-          @else {
-          <div class="click">
-            <button [disabled]="clickCount === 0" (click)="decrement()">-</button>
-            <button>{{ clickCount }}</button>
-            <button (click)="increment()">+</button>
-          </div>
+            <div class="header-timer">{{ currentDateTime }}</div>
+          } @else {
+            <div class="click">
+              <button [disabled]="clickCount === 0" (click)="decrement()">-</button>
+              <button>{{ clickCount }}</button>
+              <button (click)="increment()">+</button>
+            </div>
           }
           <button (click)="toggleTask()" [ngClass]="taskFour ? 'task-four' : 'task-five'">
             поменять

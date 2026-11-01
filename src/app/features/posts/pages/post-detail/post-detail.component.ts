@@ -8,7 +8,7 @@ import { IPost } from '../../models/post.model';
   selector: 'app-post-detail',
   imports: [CardModule, ButtonModule, RouterLink],
   templateUrl: './post-detail.component.html',
-  styleUrl: './post-detail.component.scss'
+  styleUrl: './post-detail.component.scss',
 })
 export class PostDetailComponent {
   private route = inject(ActivatedRoute);

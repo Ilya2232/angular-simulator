@@ -7,13 +7,21 @@ import { loggingInterceptor } from './interceptors/logging.interceptor';
 import { errorInterceptor } from './interceptors/error.interceptor';
 import { loaderInterceptor } from './interceptors/loader.interceptor';
 import { authInterceptor } from './features/auth/interceptors/auth.interceptor';
-import { ApplicationConfig, inject, provideAppInitializer, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer,
+  provideBrowserGlobalErrorListeners,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { AuthService } from './features/auth/services/auth.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideHttpClient(withInterceptors([loaderInterceptor, loggingInterceptor, authInterceptor, errorInterceptor])),
+    provideHttpClient(
+      withInterceptors([loaderInterceptor, loggingInterceptor, authInterceptor, errorInterceptor]),
+    ),
     provideAppInitializer(() => inject(AuthService).initAuth()),
     provideRouter(routes),
     provideZoneChangeDetection(),
@@ -21,9 +29,9 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: Aura,
         options: {
-          darkModeSelector: '.my-app-dark'
-        }
-      }
-    })
-  ]
+          darkModeSelector: '.my-app-dark',
+        },
+      },
+    }),
+  ],
 };

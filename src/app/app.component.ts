@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -20,24 +20,31 @@ import Nora from '@primeuix/themes/nora';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, MessageComponent, LoaderComponent, FontAwesomeModule],
+  imports: [
+    RouterOutlet,
+    HeaderComponent,
+    FooterComponent,
+    MessageComponent,
+    LoaderComponent,
+    FontAwesomeModule,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  isLoading: boolean = true;
+  private storageService = inject(StorageService);
+  private library = inject(FaIconLibrary);
+  private themeService = inject(ThemeService);
+
+  isLoading = true;
 
   private readonly presets = {
     [AppTheme.AURA]: Aura,
     [AppTheme.LARA]: Lara,
-    [AppTheme.NORA]: Nora
-  }
+    [AppTheme.NORA]: Nora,
+  };
 
-  constructor(
-    private storageService: StorageService,
-    private library: FaIconLibrary,
-    private themeService: ThemeService
-  ) {
+  constructor() {
     this.library.addIconPacks(fas, far, fab);
 
     this.saveLastVisit();
@@ -52,7 +59,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     setTimeout(() => {
       this.isLoading = false;
     }, 2000);

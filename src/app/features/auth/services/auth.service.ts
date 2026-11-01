@@ -15,24 +15,26 @@ export class AuthService {
   private readonly url = 'https://dummyjson.com/auth';
 
   private _user$ = new BehaviorSubject<IUserAuth | null>(null);
-  public user$ = this._user$.asObservable();
-  public isLoggedIn$ = this.user$.pipe(map(user => !!user));
+  user$ = this._user$.asObservable();
+  isLoggedIn$ = this.user$.pipe(map((user) => !!user));
 
   private loadRole(user: IUserAuth): Observable<IUserAuth> {
-    return this.http.get<{ role: string }>(`https://dummyjson.com/users/${user.id}?select=role`).pipe(
-      map(res => ({ ...user, role: res.role })),
-      catchError(() => of(user))
-    );
+    return this.http
+      .get<{ role: string }>(`https://dummyjson.com/users/${user.id}?select=role`)
+      .pipe(
+        map((res) => ({ ...user, role: res.role })),
+        catchError(() => of(user)),
+      );
   }
 
   login(data: ILoginRequest): Observable<IUserAuth> {
     return this.http.post<IAuth>(`${this.url}/login`, data).pipe(
-      tap(response => {
+      tap((response) => {
         this.saveTokens(response.accessToken, response.refreshToken);
       }),
-      switchMap(response => this.loadRole(response)),
-      tap(user => this._user$.next(user))
-    )
+      switchMap((response) => this.loadRole(response)),
+      tap((user) => this._user$.next(user)),
+    );
   }
 
   initAuth(): Observable<unknown> {
@@ -40,17 +42,17 @@ export class AuthService {
       return of(null);
     } else {
       return this.http.get<IUserAuth>(`${this.url}/me`).pipe(
-        switchMap(user => this.loadRole(user)),
-        tap(user => this._user$.next(user)),
-        catchError(() => of(null))
+        switchMap((user) => this.loadRole(user)),
+        tap((user) => this._user$.next(user)),
+        catchError(() => of(null)),
       );
     }
   }
 
   refreshToken(): Observable<ITokens> {
-    return this.http.post<ITokens>(`${this.url}/refresh`, { refreshToken: this.getRefreshToken() }).pipe(
-      tap(response => this.saveTokens(response.accessToken, response.refreshToken))
-    );
+    return this.http
+      .post<ITokens>(`${this.url}/refresh`, { refreshToken: this.getRefreshToken() })
+      .pipe(tap((response) => this.saveTokens(response.accessToken, response.refreshToken)));
   }
 
   logout(): void {

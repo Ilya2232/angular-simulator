@@ -4,10 +4,9 @@ export type PhoneMode = 'compact' | 'international' | 'national' | 'masked';
 
 @Pipe({
   name: 'phone',
-  standalone: true
+  standalone: true,
 })
 export class PhonePipe implements PipeTransform {
-
   transform(value: string | null | undefined, mode: PhoneMode = 'international'): string {
     if (!value) {
       return '';
@@ -22,7 +21,7 @@ export class PhonePipe implements PipeTransform {
     const operator = digits.slice(2, 5);
     const part1 = digits.slice(5, 8);
     const part2 = digits.slice(8, 10);
-    const part3 = digits.slice(10, 12)
+    const part3 = digits.slice(10, 12);
 
     if (mode === 'compact') {
       return '+' + digits;
@@ -36,5 +35,4 @@ export class PhonePipe implements PipeTransform {
 
     return '+' + country + ' ' + operator + ' ' + part1 + ' ' + part2 + ' ' + part3;
   }
-
 }

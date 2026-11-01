@@ -8,13 +8,13 @@ export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
       next: (event) => {
         if (event instanceof HttpResponse) {
           const duration = Date.now() - start;
-          console.log(req.method, req.url, event.status, duration + 'ms')
+          console.warn(req.method, req.url, event.status, duration + 'ms');
         }
       },
       error: (error) => {
         const duration = Date.now() - start;
         console.error(req.method, req.url, error.status, duration + 'ms');
-      }
-    })
+      },
+    }),
   );
 };

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { BehaviorSubject, combineLatest, Observable, map } from 'rxjs';
 import { IUser } from '../../../interfaces/IUser';
@@ -16,13 +16,14 @@ import { PluralPipe } from '../../pipes/plural.pipe';
   styleUrl: './user.component.scss',
 })
 export class UsersComponent implements OnInit {
-  public users$: Observable<IUser[]>;
+  users$: Observable<IUser[]>;
 
   private _searchTerm$ = new BehaviorSubject<string>('');
+  private userService = inject(UserService);
 
-  public filteredUsers$: Observable<IUser[]>;
+  filteredUsers$: Observable<IUser[]>;
 
-  constructor(private userService: UserService) {
+  constructor() {
     this.users$ = this.userService.getUsers();
 
     this.filteredUsers$ = combineLatest([this.users$, this._searchTerm$]).pipe(
@@ -30,25 +31,25 @@ export class UsersComponent implements OnInit {
         if (!searchTerm) {
           return users;
         } else {
-          return users.filter(user => user.name.toLowerCase().includes(searchTerm));
+          return users.filter((user) => user.name.toLowerCase().includes(searchTerm));
         }
-      })
+      }),
     );
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.userService.loadUsers().subscribe();
   }
 
-  public onDeleteUser(id: number): void {
+  onDeleteUser(id: number): void {
     this.userService.deleteUser(id);
   }
 
-  public onCreateUser(user: IUser): void {
+  onCreateUser(user: IUser): void {
     this.userService.addUser(user);
   }
 
-  public onFilterChange(searchTerm: string) {
+  onFilterChange(searchTerm: string) {
     this._searchTerm$.next(searchTerm);
   }
 }

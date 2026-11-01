@@ -16,8 +16,14 @@ import { MessageService } from '../../../../services/message.service';
 @Component({
   selector: 'app-posts-list',
   imports: [
-    TableModule, ContextMenuModule, SkeletonModule, DialogModule,
-    ButtonModule, InputTextModule, ReactiveFormsModule, RouterLink,
+    TableModule,
+    ContextMenuModule,
+    SkeletonModule,
+    DialogModule,
+    ButtonModule,
+    InputTextModule,
+    ReactiveFormsModule,
+    RouterLink,
   ],
   templateUrl: './posts-list.component.html',
   styleUrl: './posts-list.component.scss',
@@ -58,7 +64,8 @@ export class PostsListComponent {
 
   private load(): void {
     this.loading = true;
-    this.api.getPosts(this.rows, this.first)
+    this.api
+      .getPosts(this.rows, this.first)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((res) => {
         this.posts = res.posts;
@@ -86,7 +93,10 @@ export class PostsListComponent {
     const body = {
       title,
       views: Number(views),
-      tags: tags.split(',').map((t) => t.trim()).filter(Boolean),
+      tags: tags
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean),
     };
     const id = this.editingPost.id;
 

@@ -12,6 +12,6 @@ export const loaderInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     finalize(() => {
       if (--activeRequests === 0) loader.hideLoader();
-    })
+    }),
   );
 };

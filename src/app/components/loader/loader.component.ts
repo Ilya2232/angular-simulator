@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { LoaderService } from '../../services/loader.service';
 
@@ -10,5 +10,5 @@ import { LoaderService } from '../../services/loader.service';
   styleUrl: './loader.component.scss',
 })
 export class LoaderComponent {
-  constructor(public loaderService: LoaderService) { }
+  loaderService = inject(LoaderService);
 }
