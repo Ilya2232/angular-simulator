@@ -1,0 +1,21 @@
+<div class="product-detail">
+  <p-card [header]="product.title">
+    <img class="main-image" [src]="selectedImage()" [alt]="product.title" />
+
+    <div class="thumbs">
+      @for (img of product.images; track img) {
+        <button type="button" class="thumb" (click)="selectedImage.set(img)">
+          <img [src]="img" [alt]="product.title" />
+        </button>
+      }
+    </div>
+
+    <p>{{ product.description }}</p>
+    <p>Category: {{ product.category }}</p>
+    <p>Price: {{ product.price | currency }} (discount {{ product.discountPercentage }}%)</p>
+    <p>Rating: {{ product.rating }} | Stock: {{ product.stock }}</p>
+
+    <button class="add-cart" pButton type="button" (click)="addToCart()">Add to cart</button>
+    <a pButton routerLink="/products">Back</a>
+  </p-card>
+</div>

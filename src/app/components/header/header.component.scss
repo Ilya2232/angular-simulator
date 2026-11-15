@@ -6,6 +6,12 @@
   z-index: 100;
   color: var(--primary-color);
 
+  .cart-link {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 16px;
+  }
+
   .main-header {
     background-color: rgb(87, 87, 87);
     height: 156px;
@@ -107,7 +113,7 @@
 
 .navigator {
   a.active-link {
-    color: #F2BE22 !important;
+    color: #f2be22 !important;
     font-weight: 700;
   }
 }
