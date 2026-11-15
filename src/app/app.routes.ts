@@ -27,6 +27,11 @@ export const routes: Routes = [
         loadChildren: () => import('./features/posts/posts.routes').then((m) => m.POSTS_ROUTES),
       },
       {
+        path: 'products',
+        loadChildren: () =>
+          import('./features/products/products.routes').then((m) => m.PRODUCTS_ROUTES),
+      },
+      {
         path: '**',
         loadComponent: () =>
           import('./pages/not-found/not-found.component').then((m) => m.NotFoundComponent),

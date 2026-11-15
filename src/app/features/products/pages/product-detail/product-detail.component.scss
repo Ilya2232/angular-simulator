@@ -1,0 +1,27 @@
+.product-detail {
+  padding-top: 176px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.main-image {
+  max-width: 100%;
+}
+.thumbs {
+  display: flex;
+  gap: 8px;
+}
+.thumb {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.thumb img {
+  width: 60px;
+  display: block;
+}
+
+.add-cart {
+  margin-right: 10px;
+}
