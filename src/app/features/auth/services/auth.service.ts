@@ -74,4 +74,8 @@ export class AuthService {
     localStorage.setItem(ACCESS_KEY, access);
     localStorage.setItem(REFRESH_KEY, refresh);
   }
+
+  currentUserId(): number {
+    return this._user$.value?.id ?? 1;
+  }
 }

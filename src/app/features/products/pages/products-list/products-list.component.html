@@ -1,0 +1,65 @@
+<div class="products-page">
+  <h1>Products</h1>
+
+  <div class="filters">
+    <input
+      pInputText
+      placeholder="Search..."
+      [ngModel]="state.searchInput()"
+      (ngModelChange)="state.onSearchInput($event)"
+    />
+    <p-select
+      [options]="categories()"
+      optionLabel="name"
+      optionValue="slug"
+      [ngModel]="state.category()"
+      (ngModelChange)="state.setCategory($event)"
+      placeholder="All categories"
+      [showClear]="true"
+    />
+    <p-select
+      [options]="sortFields"
+      optionLabel="label"
+      optionValue="value"
+      [ngModel]="state.sortField()"
+      (ngModelChange)="state.setSortField($event)"
+    />
+    <p-select
+      [options]="sortOrders"
+      optionLabel="label"
+      optionValue="value"
+      [ngModel]="state.sortOrder()"
+      (ngModelChange)="state.setSortOrder($event)"
+    />
+  </div>
+
+  <div class="grid">
+    @if (state.loading()) {
+      @for (s of skeletons; track $index) {
+        <p-skeleton height="320px" />
+      }
+    } @else {
+      @for (p of state.products(); track p.id) {
+        <a [routerLink]="['/products', p.id]" class="product-card">
+          <img [src]="p.thumbnail" [alt]="p.title" />
+          <h3>{{ p.title }}</h3>
+          <p>{{ p.category }}</p>
+          <p>{{ p.price | currency }}</p>
+          <p>Rating: {{ p.rating }} | Stock: {{ p.stock }}</p>
+        </a>
+      } @empty {
+        <p>Nothing found</p>
+      }
+    }
+  </div>
+
+  <p-paginator
+    [rows]="state.pageSize()"
+    [first]="state.skip()"
+    [totalRecords]="state.total()"
+    [rowsPerPageOptions]="pageSizeOptions"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Page {currentPage} of {totalPages}, total: {totalRecords}"
+    (onPageChange)="onPageChange($event)"
+  />
+</div>

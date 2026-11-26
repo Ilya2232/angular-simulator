@@ -27,6 +27,7 @@
           <span class="user-name">{{ user.firstName }}</span>
           <button class="consultation-button" (click)="onLogout()">Выйти</button>
         }
+        <a routerLink="/products/cart" class="cart-link">Cart ({{ cart.itemsCount() }})</a>
         <button class="consultation-button">Консультация</button>
         @let isDark = (colorMode$ | async) === ColorMode.DARK;
 

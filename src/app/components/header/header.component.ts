@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { AuthService } from '../../features/auth/services/auth.service';
 import { inject } from '@angular/core';
+import { CartService } from '../../features/products/services/cart.service';
 
 interface INavLink {
   label: string;
@@ -35,11 +36,13 @@ interface INavLink {
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   private themeService = inject(ThemeService);
+  readonly cart = inject(CartService);
 
   navLinks: INavLink[] = [
     { label: 'Главная', path: '/' },
     { label: 'Пользователи', path: '/users' },
     { label: 'Посты', path: '/posts' },
+    { label: 'Товары', path: '/products' },
   ];
 
   ColorMode = ColorMode;
